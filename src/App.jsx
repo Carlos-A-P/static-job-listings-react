@@ -1,9 +1,10 @@
-import "./App.css";
+import "./styles/App.css";
+import List from "./components/JobList";
 
 function App() {
 	return (
 		<div className="App">
-			<h1>Hello World</h1>
+			<List />
 		</div>
 	);
 }
