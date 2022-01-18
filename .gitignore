@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # template files
-/design_
+/src/design
 
