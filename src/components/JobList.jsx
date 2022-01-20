@@ -1,19 +1,39 @@
 import React from "react";
 import Data from "../helpers/data.js";
-// import Card from "./Card";
-import photosnap from "../assets/photosnap.svg";
 
-export default function JobList() {
+export default function JobList(props) {
 	const test = () => {
 		Data.forEach((job) => {
-			console.log(job.company);
+			// console.log(job.company);
 		});
 	};
 	test();
 
+	const addTag = (tag) => {
+		if (!props.list.includes(tag)) {
+			props.changeFilters([...props.list, tag]);
+		}
+	};
+
 	return (
 		<div className="job-list">
-			{Data.map((job) => {
+			{Data.filter((item) => {
+				if (props.list[0] === undefined) {
+					console.log(item);
+					return item;
+				} else if (
+					props.list.includes(item.role) ||
+					props.list.includes(item.level) ||
+					props.list.includes(item)
+				) {
+					return item;
+				}
+				item.languages.map((x) => {
+					if (props.list.includes(x)) {
+						return item;
+					}
+				});
+			}).map((job) => {
 				return (
 					<div className="card" key={job.id}>
 						<img src={job.logo} alt={job.company} />
@@ -35,22 +55,22 @@ export default function JobList() {
 						<div className="tags">
 							<ul className="tags">
 								<li>
-									<button>{job.role}</button>
+									<button onClick={() => addTag(job.role)}>{job.role}</button>
 								</li>
 								<li>
-									<button>{job.level}</button>
+									<button onClick={() => addTag(job.level)}>{job.level}</button>
 								</li>
 								{job.languages.map((lang, index) => {
 									return (
 										<li key={index}>
-											<button>{lang}</button>
+											<button onClick={() => addTag(lang)}>{lang}</button>
 										</li>
 									);
 								})}
 								{job.tools.map((tools, index) => {
 									return (
 										<li key={index}>
-											<button>{tools}</button>
+											<button onClick={() => addTag(tools)}>{tools}</button>
 										</li>
 									);
 								})}
