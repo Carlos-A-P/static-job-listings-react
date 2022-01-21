@@ -3,8 +3,8 @@ import React from "react";
 export default function Filters(props) {
 	const removeTag = (tag) => {
 		const removeArr = [...props.list].filter((x) => x !== tag);
-
 		props.changeFilters(removeArr);
+		props.update(true);
 	};
 
 	return (

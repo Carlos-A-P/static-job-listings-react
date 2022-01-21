@@ -2,38 +2,18 @@ import React from "react";
 import Data from "../helpers/data.js";
 
 export default function JobList(props) {
-	const test = () => {
-		Data.forEach((job) => {
-			// console.log(job.company);
-		});
-	};
-	test();
-
 	const addTag = (tag) => {
+		// if tag isn't in filter list then add it
 		if (!props.list.includes(tag)) {
 			props.changeFilters([...props.list, tag]);
 		}
+		//
+		props.filtering(tag);
 	};
 
 	return (
 		<div className="job-list">
-			{Data.filter((item) => {
-				if (props.list[0] === undefined) {
-					console.log(item);
-					return item;
-				} else if (
-					props.list.includes(item.role) ||
-					props.list.includes(item.level) ||
-					props.list.includes(item)
-				) {
-					return item;
-				}
-				item.languages.map((x) => {
-					if (props.list.includes(x)) {
-						return item;
-					}
-				});
-			}).map((job) => {
+			{props.listing.map((job) => {
 				return (
 					<div className="card" key={job.id}>
 						<img src={job.logo} alt={job.company} />
