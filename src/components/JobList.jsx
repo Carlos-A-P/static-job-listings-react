@@ -2,13 +2,13 @@ import React from "react";
 import Data from "../helpers/data.js";
 
 export default function JobList(props) {
-	const addTag = (tag) => {
+	const addTag = (tag, type) => {
 		// if tag isn't in filter list then add it
 		if (!props.list.includes(tag)) {
 			props.changeFilters([...props.list, tag]);
 		}
 		//
-		props.filtering(tag);
+		props.filtering(tag, type);
 	};
 
 	return (
@@ -35,22 +35,30 @@ export default function JobList(props) {
 						<div className="tags">
 							<ul className="tags">
 								<li>
-									<button onClick={() => addTag(job.role)}>{job.role}</button>
+									<button onClick={() => addTag(job.role, "role")}>
+										{job.role}
+									</button>
 								</li>
 								<li>
-									<button onClick={() => addTag(job.level)}>{job.level}</button>
+									<button onClick={() => addTag(job.level, "level")}>
+										{job.level}
+									</button>
 								</li>
 								{job.languages.map((lang, index) => {
 									return (
 										<li key={index}>
-											<button onClick={() => addTag(lang)}>{lang}</button>
+											<button onClick={() => addTag(lang, "skills")}>
+												{lang}
+											</button>
 										</li>
 									);
 								})}
 								{job.tools.map((tools, index) => {
 									return (
 										<li key={index}>
-											<button onClick={() => addTag(tools)}>{tools}</button>
+											<button onClick={() => addTag(tools, "skills")}>
+												{tools}
+											</button>
 										</li>
 									);
 								})}

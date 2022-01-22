@@ -1,16 +1,16 @@
 import React from "react";
 
-export default function Filters(props) {
+export default function Filters({ list, changeFilters, update }) {
 	const removeTag = (tag) => {
-		const removeArr = [...props.list].filter((x) => x !== tag);
-		props.changeFilters(removeArr);
-		props.update(true);
+		const removeArr = [...list].filter((x) => x !== tag);
+		changeFilters(removeArr);
+		update(true);
 	};
 
 	return (
 		<div>
 			<ul>
-				{props.list.map((tag, index) => {
+				{list.map((tag, index) => {
 					return (
 						<li key={index}>
 							<p>{tag}</p>

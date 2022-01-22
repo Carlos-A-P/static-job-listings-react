@@ -11,56 +11,76 @@ function App() {
 	const [listings, setListings] = useState([]);
 	// updateFilter
 	const [removed, setRemoved] = useState(false);
-
-	// useEffect(() => {
-	// 	if (removed) setListings(Data);
-	// 	// if (filter.length == 0 || removed) setListings(Data);
-	// }, [removed]);
+	// set role and level
+	const [experience, setExperience] = useState({ role: "", level: "" });
 
 	useEffect(() => {
 		if (filter.length == 0) setListings(Data);
 	}, [filter]);
 
-	const filterList = (tags) => {
-		setListings(
-			listings.filter((listing) =>
-				[...listing.languages, ...listing.tools].includes(tags)
-			)
-		);
+	useEffect(() => {
+		removedFilter();
+		setRemoved(false);
+	}, [removed]);
+
+	const filterList = (tags, type) => {
+		if (type === "role") {
+			setListings(listings.filter((job) => job.role === tags));
+			setExperience({ ...experience, role: tags });
+		} else if (type === "level") {
+			setListings(listings.filter((job) => job.level === tags));
+			setExperience({ ...experience, level: tags });
+		} else if (type === "skills") {
+			setListings(
+				listings.filter((listing) =>
+					[...listing.languages, ...listing.tools].includes(tags)
+				)
+			);
+		}
+		console.log(experience);
 	};
 
-	const removedFilter = (value) => {
-		if (value) {
-			setRemoved(true);
-			setListings(Data);
-			let arr = Data;
-			filter.forEach((tag) => {
-				arr = arr.filter((job) =>
-					[...job.languages, ...job.tools].includes(tag)
-				);
-			});
-			console.log(arr, filter);
-			setListings(arr);
-			console.log("==========");
-			console.log(listings);
-			// filter.forEach((tag) => {
-			// 	console.log(tag);
-			// 	console.log(listings);
-			// 	setListings(
-			// 		listings.filter((job) =>
-			// 			[...job.languages, ...job.tools].includes(tag)
-			// 		)
-			// 	);
-			// });
-			// setRemoved(false);
+	const removedFilter = () => {
+		// reset experience
+		if (!filter.includes(experience.role)) {
+			setExperience({ ...experience, role: "" });
 		}
+		if (!filter.includes(experience.level)) {
+			setExperience({ ...experience, level: "" });
+		}
+
+		let arr = Data;
+
+		// filter by experience
+		if (experience.role !== "") {
+			arr = arr.filter((job) => {
+				if (job.role === experience.role) {
+					return job;
+				}
+			});
+			console.log("role available: ", experience, experience.role);
+		}
+		if (experience.level !== "") {
+			arr = arr.filter((job) => {
+				if (job.role === experience.level) return job;
+			});
+			console.log("level available: ", experience, experience.level);
+		}
+
+		// filter by technology
+		filter.forEach((tag) => {
+			arr = arr.filter((job) => [...job.languages, ...job.tools].includes(tag));
+		});
+		console.log(arr);
+
+		setListings(arr);
 	};
 
 	return (
 		<div className="App">
 			<header>
 				<Filters
-					update={(value) => removedFilter(value)}
+					update={(value) => setRemoved(value)}
 					list={filter}
 					changeFilters={(filter) => setFilter(filter)}
 				/>
