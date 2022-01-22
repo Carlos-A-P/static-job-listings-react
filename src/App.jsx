@@ -37,7 +37,6 @@ function App() {
 				)
 			);
 		}
-		console.log(experience);
 	};
 
 	const removedFilter = () => {
@@ -51,27 +50,23 @@ function App() {
 
 		let arr = Data;
 
-		// filter by experience
-		if (experience.role !== "") {
-			arr = arr.filter((job) => {
-				if (job.role === experience.role) {
-					return job;
-				}
-			});
-			console.log("role available: ", experience, experience.role);
-		}
-		if (experience.level !== "") {
-			arr = arr.filter((job) => {
-				if (job.role === experience.level) return job;
-			});
-			console.log("level available: ", experience, experience.level);
-		}
-
 		// filter by technology
 		filter.forEach((tag) => {
-			arr = arr.filter((job) => [...job.languages, ...job.tools].includes(tag));
+			if (tag !== experience.role && tag !== experience.level) {
+				arr = arr.filter((job) =>
+					[...job.languages, ...job.tools].includes(tag)
+				);
+			}
 		});
-		console.log(arr);
+
+		// filter by experience
+		if (experience.role !== "") {
+			arr = arr.filter((job) => job.role === experience.role);
+		}
+
+		if (experience.level !== "") {
+			arr = arr.filter((job) => job.level === experience.level);
+		}
 
 		setListings(arr);
 	};
