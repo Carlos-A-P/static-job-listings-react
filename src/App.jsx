@@ -86,7 +86,7 @@ function App() {
 					list={filter}
 					changeFilters={(filter) => setFilter(filter)}
 				/>
-				<button onClick={() => setFilter([])}>Clear Filters</button>
+				{/* <button onClick={() => setFilter([])}>Clear Filters</button> */}
 			</header>
 			<List
 				list={filter}

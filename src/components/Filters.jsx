@@ -10,7 +10,7 @@ export default function Filters({ list, changeFilters, update }) {
 
 	return (
 		<div>
-			<ul>
+			<ul style={{ display: `${list.length === 0 ? "none" : "block"}` }}>
 				{list.map((tag, index) => {
 					return (
 						<li key={index}>
@@ -19,6 +19,7 @@ export default function Filters({ list, changeFilters, update }) {
 						</li>
 					);
 				})}
+				<button onClick={() => changeFilters([])}>Clear Filters</button>
 			</ul>
 		</div>
 	);

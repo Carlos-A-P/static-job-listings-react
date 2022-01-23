@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/joblist.css";
 
 export default function JobList(props) {
 	const addTag = (tag, type) => {
@@ -24,8 +25,8 @@ export default function JobList(props) {
 							<div className="card-header">
 								<p className="company">{job.company}</p>
 								<div className="header_tags">
-									{job.new && <p className="new">NEW!</p>}
-									{job.featured && <p className="featured">FEATURED</p>}
+									{job.new && <p className="new-job feat">NEW!</p>}
+									{job.featured && <p className="feat-job feat">FEATURED</p>}
 								</div>
 							</div>
 							<p className="card-title">{job.position}</p>
