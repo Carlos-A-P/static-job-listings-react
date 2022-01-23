@@ -1,5 +1,4 @@
 import React from "react";
-import Data from "../helpers/data.js";
 
 export default function JobList(props) {
 	const addTag = (tag, type) => {
@@ -7,7 +6,6 @@ export default function JobList(props) {
 		if (!props.list.includes(tag)) {
 			props.changeFilters([...props.list, tag]);
 		}
-		//
 		props.filtering(tag, type);
 	};
 
@@ -15,7 +13,12 @@ export default function JobList(props) {
 		<div className="job-list">
 			{props.listing.map((job) => {
 				return (
-					<div className="card" key={job.id}>
+					<div
+						className={`card ${job.new ? "new" : ""} ${
+							job.featured ? "featured" : ""
+						}`}
+						key={job.id}
+					>
 						<img src={job.logo} alt={job.company} />
 						<div className="card-description">
 							<div className="card-header">

@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/filters.css";
 
 export default function Filters({ list, changeFilters, update }) {
 	const removeTag = (tag) => {

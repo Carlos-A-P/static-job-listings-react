@@ -3,6 +3,7 @@ import "./styles/App.css";
 import List from "./components/JobList";
 import Filters from "./components/Filters";
 import Data from "./helpers/data.js";
+import Header from "./components/Header";
 
 function App() {
 	// list of filters
@@ -12,10 +13,12 @@ function App() {
 	// updateFilter
 	const [removed, setRemoved] = useState(false);
 	// set role and level
-	const [experience, setExperience] = useState({ role: "", level: "" });
+	const [experience, setExperience] = useState({ role: null, level: null });
+	// 	const [role, setRole] = useState(null);
+	// const [level, setLevel] = useState(null);
 
 	useEffect(() => {
-		if (filter.length == 0) setListings(Data);
+		if (filter.length === 0) setListings(Data);
 	}, [filter]);
 
 	useEffect(() => {
@@ -41,11 +44,14 @@ function App() {
 
 	const removedFilter = () => {
 		// reset experience
-		if (!filter.includes(experience.role)) {
-			setExperience({ ...experience, role: "" });
+		if (!filter.includes(experience.role) && experience.role !== null) {
+			setExperience({ ...experience, role: null });
 		}
-		if (!filter.includes(experience.level)) {
-			setExperience({ ...experience, level: "" });
+		if (
+			filter.includes(experience.level) === false &&
+			experience.level !== null
+		) {
+			setExperience({ ...experience, level: null });
 		}
 
 		let arr = Data;
@@ -60,21 +66,22 @@ function App() {
 		});
 
 		// filter by experience
-		if (experience.role !== "") {
+		if (experience.role !== null) {
 			arr = arr.filter((job) => job.role === experience.role);
 		}
 
-		if (experience.level !== "") {
+		if (experience.level !== null) {
 			arr = arr.filter((job) => job.level === experience.level);
 		}
-
 		setListings(arr);
 	};
 
 	return (
-		<div className="App">
+		<main className="App">
 			<header>
+				<Header />
 				<Filters
+					className={filter.length === 0 ? "hidden" : ""}
 					update={(value) => setRemoved(value)}
 					list={filter}
 					changeFilters={(filter) => setFilter(filter)}
@@ -87,7 +94,7 @@ function App() {
 				changeFilters={(filter) => setFilter(filter)}
 				filtering={filterList}
 			/>
-		</div>
+		</main>
 	);
 }
 

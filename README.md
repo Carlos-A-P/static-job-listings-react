@@ -1,70 +1,123 @@
-# Getting Started with Create React App
+```JavaScript
+{[...job.languages, ...job.tools].map((skills, index) => {
+	return (
+		<li key={index}>
+			<button
+				className="tags"
+				onClick={() => addTag(skills, "skills")}
+			>
+				{skills}
+			</button>
+		</li>
+	);
+})}
+```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```JavaScript
 
-## Available Scripts
+import { useState, useEffect } from "react";
+import "./styles/App.css";
+import List from "./components/JobList";
+import Filters from "./components/Filters";
+import Data from "./helpers/data.js";
+import Header from "./components/Header";
 
-In the project directory, you can run:
+function App() {
+// list of filters
+const [filter, setFilter] = useState([]);
+// items with filters
+const [listings, setListings] = useState([]);
+// updateFilter
+const [removed, setRemoved] = useState(false);
+// set role and level
+// const [experience, setExperience] = useState({ role: null, level: null });
+const [role, setRole] = useState(null);
+const [level, setLevel] = useState(null);
 
-### `npm start`
+    useEffect(() => {
+    	if (filter.length === 0) setListings(Data);
+    	console.log("filter changed: ", filter);
+    }, [filter]);
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    useEffect(() => {
+    	removedFilter();
+    	setRemoved(false);
+    	console.log("removed", removed);
+    }, [removed]);
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    const filterList = (tags, type) => {
+    	if (type === "role") {
+    		setListings(listings.filter((job) => job.role === tags));
+    		setRole(tags);
+    		// setExperience({ ...experience, role: tags });
+    	} else if (type === "level") {
+    		setListings(listings.filter((job) => job.level === tags));
+    		setLevel(tags);
+    		// setExperience({ ...experience, level: tags });
+    	} else if (type === "skills") {
+    		setListings(
+    			listings.filter((listing) =>
+    				[...listing.languages, ...listing.tools].includes(tags)
+    			)
+    		);
+    	}
+    };
 
-### `npm test`
+    const removedFilter = () => {
+    	// reset experience
+    	if (!filter.includes(role) && role !== null) {
+    		setRole(null);
+    	}
+    	if (filter.includes(level) === false && level !== null) {
+    		setLevel(null);
+    	}
+    	console.log("==============================");
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    	let arr = Data;
 
-### `npm run build`
+    	// filter by technology
+    	filter.forEach((tag) => {
+    		if (tag !== role && tag !== level) {
+    			arr = arr.filter((job) =>
+    				[...job.languages, ...job.tools].includes(tag)
+    			);
+    		}
+    	});
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    	// filter by experience
+    	if (role !== null) {
+    		arr = arr.filter((job) => job.role === role);
+    	}
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    	if (level !== null) {
+    		arr = arr.filter((job) => job.level === level);
+    	}
+    	setListings(arr);
+    };
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    return (
+    	<main className="App">
+    		<header>
+    			<Header />
+    			<Filters
+    				className={filter.length === 0 ? "hidden" : ""}
+    				update={(value) => setRemoved(value)}
+    				list={filter}
+    				changeFilters={(filter) => setFilter(filter)}
+    			/>
+    			<button onClick={() => setFilter([])}>Clear Filters</button>
+    		</header>
+    		<List
+    			list={filter}
+    			listing={listings}
+    			changeFilters={(filter) => setFilter(filter)}
+    			filtering={filterList}
+    		/>
+    	</main>
+    );
 
-### `npm run eject`
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+export default App;
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
