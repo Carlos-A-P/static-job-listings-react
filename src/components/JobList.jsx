@@ -29,7 +29,9 @@ export default function JobList(props) {
 									{job.featured && <p className="feat-job feat">FEATURED</p>}
 								</div>
 							</div>
-							<p className="card-title">{job.position}</p>
+							<p className="card-title">
+								<a href="/">{job.position}</a>
+							</p>
 							<ul className="short-description">
 								<li>{job.postedAt}</li>
 								<li>{job.contract}</li>
