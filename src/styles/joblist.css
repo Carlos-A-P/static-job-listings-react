@@ -1,3 +1,8 @@
+a,
+button {
+	transition: all 0.15s ease-in-out;
+}
+
 .job-list {
 	max-width: 1110px;
 	margin: auto;
@@ -88,7 +93,8 @@
 	text-decoration: none;
 }
 
-.card-title a:hover {
+.card-title a:hover,
+.card-title a:focus {
 	color: #5ca5a5;
 }
 
@@ -131,7 +137,43 @@ li {
 	font-family: "Spartan", sans-serif;
 }
 
-.tags button:hover {
+.tags button:hover,
+.tags button:focus {
 	background-color: #5ca5a5;
 	color: white;
+}
+
+@media (min-width: 1000px) {
+	.card img {
+		position: absolute;
+		left: 40px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 88px;
+	}
+
+	.card-description {
+		padding-left: 152px;
+		padding-bottom: 16px;
+		margin-bottom: 0;
+		border-bottom: none;
+	}
+
+	.card {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.tags {
+		padding: 0;
+	}
+
+	.card-title {
+		font-size: 18px;
+	}
+
+	.card-header {
+		margin-bottom: 8px;
+	}
 }

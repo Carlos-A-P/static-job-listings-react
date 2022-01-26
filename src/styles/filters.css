@@ -16,9 +16,11 @@
 .filter-wrap button {
 	border: none;
 	cursor: pointer;
+	transition: background-color 0.25s ease-in-out;
 }
 
-.filter-wrap button:hover {
+.filter-wrap button:hover,
+.filter-wrap button:focus {
 	background-color: black;
 }
 
@@ -57,9 +59,11 @@
 	color: #7c8f8f;
 	font-size: 13px;
 	font-family: "Spartan", sans-serif;
+	transition: all 0.25s ease-in-out;
 }
 
-button.clear-filter:hover {
+button.clear-filter:hover,
+button.clear-filter:focus {
 	background-color: transparent;
 	color: #5ca5a5;
 	text-decoration: underline;
