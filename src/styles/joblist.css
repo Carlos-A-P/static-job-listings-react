@@ -137,13 +137,12 @@ li {
 	font-family: "Spartan", sans-serif;
 }
 
-.tags button:hover,
-.tags button:focus {
+.tags button:hover {
 	background-color: #5ca5a5;
 	color: white;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 1040px) {
 	.card img {
 		position: absolute;
 		left: 40px;
